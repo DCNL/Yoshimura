@@ -1,0 +1,5 @@
+#! /bin/sh
+detex -lr -e "figure,table,bibliographystyle,array,eqnarray,equation,longtable,picture,tabular,verbatim," $*.tex | grep -v "^$" | grep -v "ipsjunsrt" | wc -m
+pdftotext $*.pdf foo$$.txt
+tr -d '\n\f' < foo$$.txt | wc -m
+rm foo$$.txt
