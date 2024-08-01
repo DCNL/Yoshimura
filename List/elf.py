@@ -20,16 +20,16 @@ if data[0:4] == b'\x7fELF':
             print("Intel 80960")
         case 0x28:
             print("Arm")
+
+    # エントリポイント，プログラムヘッダテーブル，セクションヘッダテーブルの取得
     if data[4] == 1: #16bitの場合
         e1 = struct.unpack("<lll",data[24:24+12])
-
         entrypoint = e1[0]
         print("entrypoint = " + hex(entrypoint)) #エントリーポイントのメモリアドレス
         phoff = e1[1] #str(data[28] + data[29] + data[30] + data[31])
         print("phoff = " + hex(phoff)) #プログラムヘッダテーブルの最初のポイント
         shoff = e1[2]#str(data[32] + data[33] + data[34] + data[35])
         print("shoff = " + hex(shoff)) #セクションヘッダテーブルの最初のポイント
-
         e2 = struct.unpack("<6H",data[40:40+12])  #2bitずつ
         ehsize = e2[0] #str(data[40] + data[41])
         print("ehsize = " + hex(ehsize)) #このヘッダーのサイズ
@@ -49,13 +49,10 @@ if data[0:4] == b'\x7fELF':
             shptr = shoff + i * shensize #エントリのスタート位置
             sehd.append(struct.unpack("<10l",data[shptr:shptr+shensize]))
         print(sehd)
-        #print(sehd[shstrndx])
         print(sehd[shstrndx][4]) #.strtabのオフセット
-        
         shstr = data[sehd[shstrndx][4]:sehd[shstrndx][4]+sehd[shstrndx][5]]
 
         rden = 0
-
         for i in range(shennum):
             sname = ''
             for ch in shstr[sehd[i][0]:]:

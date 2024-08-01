@@ -34,6 +34,7 @@
 \RequirePackage{pxjahyper}
 % プログラムリストを入れるための設定
 \RequirePackage{listings,jvlisting}
+\RequirePackage{jlisting}
 \lstset{
   basicstyle={\ttfamily},
   identifierstyle={\small},
